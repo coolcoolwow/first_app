@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
-  resources :users
+  #get 'sessions/new'
 
-  root to:'root#home'
+  #get 'sessions/create'
+
+  #get 'sessions/destroy'
+
+	resources :users
+	resources :sessions, only: [ :new, :create, :destroy ]
+	get 'sandbox', to: 'root#sandbox' if Rails.env.development?
+	root to:'root#home'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
