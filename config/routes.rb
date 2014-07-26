@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  #get 'posts/new'
+
+  #get 'posts/create'
+
   #get 'sessions/new'
 
   #get 'sessions/create'
@@ -6,6 +10,7 @@ Rails.application.routes.draw do
   #get 'sessions/destroy'
 
 	resources :users
+	resources :posts
 	resources :sessions, only: [ :new, :create, :destroy ]
 	get 'sandbox', to: 'root#sandbox' if Rails.env.development?
 	root to:'root#home'

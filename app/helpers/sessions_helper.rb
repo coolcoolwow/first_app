@@ -19,4 +19,11 @@ module SessionsHelper
 		@current_user = nil
 		session.delete(:session_token)
 	end
+
+	def authenticate_user
+		unless signed_in?
+			flash[:notice] = "Sign-in to continue"
+			redirect_to new_session_path
+		end
+	end
 end
