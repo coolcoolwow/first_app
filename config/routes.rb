@@ -9,7 +9,12 @@ Rails.application.routes.draw do
 
   #get 'sessions/destroy'
 
-	resources :users
+	resources :users do
+		get 'followers', on: :member
+		get 'followings', on: :member
+		post 'follow', on: :member
+		delete 'unfollow', on: :member
+	end
 	resources :posts
 	resources :sessions, only: [ :new, :create, :destroy ]
 	get 'sandbox', to: 'root#sandbox' if Rails.env.development?
