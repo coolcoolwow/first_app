@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+	searchable do
+		text :name, :email
+	end
 	has_many :posts
 	before_save { self.email = email.downcase }
 	before_save { self.session_token ||= Digest::SHA1.hexdigest(SecureRandom.urlsafe_base64.to_s) }
@@ -34,4 +37,6 @@ class User < ActiveRecord::Base
 	def followed_by?(user)
 		followers.exists?(user.id)
 	end
+
+	self.per_page = 20
 end

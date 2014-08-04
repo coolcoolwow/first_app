@@ -12,5 +12,7 @@
 		<ul class="posts">
 			<%= render partial: "shared/post", collection: @posts %>
 		</ul>
+		<%= will_paginate @posts %>
+		<%= page_entries_info @posts %>
 	</div>
 </div>

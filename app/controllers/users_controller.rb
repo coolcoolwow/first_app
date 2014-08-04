@@ -4,13 +4,21 @@ class UsersController < ApplicationController
 	# GET /users
 	# GET /users.json
 	def index
-		@users = User.all
+		if params[:search].blank?
+			@users = User.all.page(params[:page])
+		else
+			@users = User.search do
+				fulltext params[:search]
+				paginate(page: params[:page])
+				#order_by :created_at, :desc
+			end.results
+		end
 	end
 
 	# GET /users/1
 	# GET /users/1.json
 	def show
-		@posts = @user.posts
+		@posts = @user.posts.page(params[:page])
 	end
 
 	# GET /users/new
@@ -66,31 +74,24 @@ class UsersController < ApplicationController
 			flash[:error] = "You cannot follow yourself"
 		elsif current_user.following?(@user)
 			flash[:error] = "You already follow #{@user.name}"
-		else
-			unless current_user.follow(@user).nil?
-				flash[:success] = "You are following #{@user.name}"
-			else
-				flash[:error] = "Something went wrong. You cannot follow #{@user.name}"
-			end
 		end
-		redirect_to @user
+		if request.xhr?
+			render status: current_user.follow(@user) ? 200 : 400, nothing: true
+		end
 	end
 
 	def unfollow
-		if current_user.unfollow(@user)
-			flash[:success] = "You no longer follow #{@user.name}"
-		else
-			flash[:error] = "You cannot unfollow #{@user.name}"
+		if request.xhr?
+			render status: current_user.unfollow(@user) ? 200: 400, nothing: true
 		end
-		redirect_to @user
 	end
 
 	def followers
-		@users=@user.followers
+		@users=@user.followers.page(params[:page])
 	end
 
 	def followings
-		@users=@user.followed_users
+		@users=@user.followed_users.page(params[:page])
 	end
 
 	private
