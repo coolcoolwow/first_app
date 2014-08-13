@@ -58,3 +58,25 @@ gem 'will_paginate'
 gem 'sunspot_rails'
 gem 'sunspot_solr', group: :development
 gem 'progress_bar'
+
+#Display full error context
+gem 'better_errors', group: :development
+gem 'binding_of_caller', group: :development
+
+#RSpec testing framework
+gem 'rspec-rails', group: [ :development, :test ]
+
+#Testing for Humans
+gem 'capybara', group: :test
+
+#Testing Javascript execution
+gem 'selenium-webdriver', group: :test
+
+#Create fixtures for testing
+gem 'factory_girl_rails', '~> 4.0', group: :test
+
+#Launch pages during testing
+gem 'launchy'
+
+#Clear fixtures from database between tests
+gem 'database_cleaner', '1.0.0.RC1'
